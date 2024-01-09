@@ -18,6 +18,6 @@ namespace ProjektBDwAI.Models
         public string Password { get; set; }
         public bool isAdmin { get; set; }
 
-        public ICollection<Survey> Surveys { get; set; }
+        public required ICollection<Survey> Surveys { get; set; }
     }
 }
