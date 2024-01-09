@@ -17,7 +17,7 @@ namespace ProjektBDwAI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -75,7 +75,7 @@ namespace ProjektBDwAI.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("Question");
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("ProjektBDwAI.Models.Results", b =>
@@ -96,6 +96,10 @@ namespace ProjektBDwAI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SurveyId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Results");
                 });
@@ -135,8 +139,7 @@ namespace ProjektBDwAI.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -175,6 +178,10 @@ namespace ProjektBDwAI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("ResultId");
+
                     b.ToTable("UserResults");
                 });
 
@@ -200,6 +207,25 @@ namespace ProjektBDwAI.Migrations
                     b.Navigation("Survey");
                 });
 
+            modelBuilder.Entity("ProjektBDwAI.Models.Results", b =>
+                {
+                    b.HasOne("ProjektBDwAI.Models.Survey", "Survey")
+                        .WithMany()
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjektBDwAI.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Survey");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ProjektBDwAI.Models.Survey", b =>
                 {
                     b.HasOne("ProjektBDwAI.Models.User", "Owner")
@@ -211,9 +237,33 @@ namespace ProjektBDwAI.Migrations
                     b.Navigation("Owner");
                 });
 
+            modelBuilder.Entity("ProjektBDwAI.Models.UserResults", b =>
+                {
+                    b.HasOne("ProjektBDwAI.Models.Question", "Questions")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjektBDwAI.Models.Results", "Results")
+                        .WithMany("UserResults")
+                        .HasForeignKey("ResultId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Questions");
+
+                    b.Navigation("Results");
+                });
+
             modelBuilder.Entity("ProjektBDwAI.Models.Question", b =>
                 {
                     b.Navigation("Answers");
+                });
+
+            modelBuilder.Entity("ProjektBDwAI.Models.Results", b =>
+                {
+                    b.Navigation("UserResults");
                 });
 
             modelBuilder.Entity("ProjektBDwAI.Models.Survey", b =>

@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using ProjektBDwAI.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace ProjektBDwAI
 {
-    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, int>
+    public class ApplicationDbContext : DbContext
     {
+        public DbSet<User> Users { get; set; }
         public DbSet<Survey> Surveys { get; set;}
         public DbSet<Question> Questions { get; set; }
         public DbSet<ProjektBDwAI.Models.Results> Results { get; set; }
@@ -21,6 +19,7 @@ namespace ProjektBDwAI
             modelBuilder.Entity<User>(entity => {
                 entity.HasKey(k => k.Id);
                 });
+
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Surveys)
                 .WithOne(s => s.Owner)

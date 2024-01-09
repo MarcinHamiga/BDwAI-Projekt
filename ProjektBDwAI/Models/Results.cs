@@ -10,11 +10,11 @@ namespace ProjektBDwAI.Models
         public DateTime DateFilled { get; set; }
 
         [ForeignKey(nameof(SurveyId))]
-        public required Survey Survey { get; set; }
+        public Survey Survey { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public required User User { get; set; }
+        public User User { get; set; }
 
-        public required ICollection<UserResults> UserResults { get; set; }
+        public ICollection<UserResults> UserResults { get; set; }
     }
 }

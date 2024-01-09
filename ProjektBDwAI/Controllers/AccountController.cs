@@ -1,21 +1,27 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProjektBDwAI.Models;
+using BC = BCrypt.Net.BCrypt;
 
 namespace ProjektBDwAI.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly ApplicationDbContext _context;
+        public AccountController(ApplicationDbContext applicationDbContext)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            _context = applicationDbContext;
         }
         
+        private string HashPassword(string Password)
+        {
+            return BC.HashPassword(Password);
+        }
+
+        private bool VerifyPassword(string providedPassword, string hashedPassword)
+        {
+            return BC.Verify(providedPassword, hashedPassword);
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -31,14 +37,17 @@ namespace ProjektBDwAI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, lockoutOnFailure: false);
-
-                if (result.Succeeded)
+                if (_context.Users.Any(u => u.Username == model.Username))
                 {
-                    return RedirectToAction("Index", "Home");
-                }
+                    var existingUser = _context.Users.FirstOrDefault(u => u.Username == model.Username);
 
-                ModelState.AddModelError(string.Empty, "Błędne dane logowania. Sprawdź login lub hasło i spróbuj ponownie");
+                    if (existingUser != null && VerifyPassword(model.Password, existingUser.Password)) {
+                        HttpContext.Session.SetInt32("UserId", existingUser.Id);
+                        HttpContext.Session.SetString("Username", existingUser.Username);
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
             }
 
             return View();
@@ -50,28 +59,20 @@ namespace ProjektBDwAI.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(User model)
         {
-            if (ModelState.IsValid)
+            if (_context.Users.Any(u => u.Username == model.Username))
             {
-                var user = new User() { Username=model.Username, isAdmin=model.isAdmin };
-                var result = await _userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded){
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-
+                ModelState.AddModelError("Username", "Ta nazwa użytkownika jest już zajęta");
+                return View();
             }
+            
+            model.Password = HashPassword(model.Password);
 
-            return View(model);
+            _context.Users.Add(model);
+            _context.SaveChanges();
+
+            return RedirectToAction("Login");
         }
     }
 }

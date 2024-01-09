@@ -15,7 +15,14 @@ namespace ProjektBDwAI.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if (HttpContext.Session.GetInt32("UserId").HasValue)
+            {
+                ViewData["Username"] = HttpContext.Session.GetString("Username");
+                ViewData["UserId"] = HttpContext.Session.GetInt32("UserId");
+                return View();
+            }
+
+            return RedirectToAction("Index", "Account");
         }
 
         public IActionResult Privacy()
