@@ -2,7 +2,7 @@
   "version": 2,
   "dgSpecHash": "Klv8QYqZXlJpSUJY5QV1IFj0M0PXCePuwI1n8Dh/e9sELTAaB1UcKBrCob/yTV2rGCMJw88IbIUyIo0ojFaVgg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\marci\\Documents\\GitHub\\BDwIA-Projekt\\ProjektBDwAI\\ProjektBDwAI.csproj",
+  "projectFilePath": "C:\\Users\\User\\source\\repos\\BDwIA-Projekt\\ProjektBDwAI\\ProjektBDwAI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\marci\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\marci\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

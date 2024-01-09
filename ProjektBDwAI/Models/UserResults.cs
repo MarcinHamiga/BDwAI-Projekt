@@ -19,9 +19,6 @@ namespace ProjektBDwAI.Models
         public Question Questions { get; set; }
 
         [ForeignKey(nameof(ResultId))]
-        public Results Results { get; set; }
-
-        public ICollection<Results> Result { get; set; }
-        public ICollection<Question> Question { get; set; }
+        public required Results Results { get; set; }
     }
 }
