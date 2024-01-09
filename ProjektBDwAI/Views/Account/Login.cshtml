@@ -7,3 +7,41 @@
 }
 
 
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, inital-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>Ekran logowania</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="card mt-4">
+            <div class="card-header align-content-center text-center">
+                <h1>Logowanie</h1>
+            </div>
+            <div class="card-body align-content-center text-center">
+                <form method="post" asp-action="LoginUser" asp-controller="Account">
+                    <div class="row mb-1">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <label class="form-label col-md-12">Nazwa użytkownika</label>
+                                <input class="form-text col-md-4 offset-4" type="text" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-4">
+                            <div class="row">
+                                <label class="form-label col-md-12">Hasło</label>
+                                <input class="form-text col-md-4 offset-4" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="submit" class="btn btn-primary mt-4" value="Zaloguj się" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
