@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProjektBDwAI.Models;
 
@@ -49,11 +50,13 @@ namespace ProjektBDwAI.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(User model)
         {
             if (ModelState.IsValid)
             {
-                var user = new User { Username = model.Username, isAdmin = model.isAdmin };
+                var user = new User() { Username=model.Username, isAdmin=model.isAdmin };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded){

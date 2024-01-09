@@ -12,13 +12,13 @@ namespace ProjektBDwAI.Models
         [Required]
         public int QuestionId { get; set; }
         [Required]
-        public required string Content { get; set; }
+        public string Content { get; set; }
         [Required]
-        public required string Value {get; set; }
+        public string Value {get; set; }
         [Required]
-        public required string Name { get; set; }
+        public string Name { get; set; }
 
         [ForeignKey(nameof(QuestionId))]
-        public required Question Question { get; set; }
+        public Question Question { get; set; }
     }
 }

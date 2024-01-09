@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjektBDwAI.Models
 {
-    public class User
+    public class User : IdentityUser<int>
     {
+
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public override int Id { get; set; }
 
         [Required(ErrorMessage = "Nazwa użytkownika jest wymagana")]
         [StringLength(50, MinimumLength = 3, ErrorMessage ="Minimum 3 znaki, maksymalnie 50 znaków")]
@@ -18,6 +19,6 @@ namespace ProjektBDwAI.Models
         public string Password { get; set; }
         public bool isAdmin { get; set; }
 
-        public required ICollection<Survey> Surveys { get; set; }
+        public ICollection<Survey>? Surveys { get; set; }
     }
 }

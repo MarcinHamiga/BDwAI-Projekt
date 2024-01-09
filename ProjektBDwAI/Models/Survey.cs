@@ -14,11 +14,11 @@ namespace ProjektBDwAI.Models
         [Required]
         public int OwnerId { get; set; }
         [Required]
-        public required string Title {  get; set; }
+        public string Title {  get; set; }
 
         [ForeignKey(nameof(OwnerId))]
-        public required User Owner { get; set; }
+        public User Owner { get; set; }
 
-        public required ICollection<Question> Questions { get; set; }
+        public ICollection<Question> Questions { get; set; }
     }
 }

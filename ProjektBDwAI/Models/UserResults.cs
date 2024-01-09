@@ -16,12 +16,12 @@ namespace ProjektBDwAI.Models
         public required string SelectedAnswer { get; set; }
 
         [ForeignKey(nameof(QuestionId))]
-        public required Question Questions { get; set; }
+        public Question Questions { get; set; }
 
         [ForeignKey(nameof(ResultId))]
-        public required Results Results { get; set; }
+        public Results Results { get; set; }
 
-        public required ICollection<Results> Result { get; set; }
-        public required ICollection<Question> Question { get; set; }
+        public ICollection<Results> Result { get; set; }
+        public ICollection<Question> Question { get; set; }
     }
 }

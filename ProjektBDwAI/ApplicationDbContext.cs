@@ -1,17 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using ProjektBDwAI.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ProjektBDwAI
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
-        public DbSet<User> Users { get; set; }
         public DbSet<Survey> Surveys { get; set;}
-        public DbSet<Question> Question { get; set; }
+        public DbSet<Question> Questions { get; set; }
         public DbSet<ProjektBDwAI.Models.Results> Results { get; set; }
         public DbSet<UserResults> UserResults { get; set; }
         public DbSet<Answer> Answers { get; set; }
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
