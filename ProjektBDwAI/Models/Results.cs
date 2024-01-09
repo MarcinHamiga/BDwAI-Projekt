@@ -14,5 +14,7 @@ namespace ProjektBDwAI.Models
 
         [ForeignKey(nameof(UserId))]
         public required User User { get; set; }
+
+        public required ICollection<UserResults> UserResults { get; set; }
     }
 }
