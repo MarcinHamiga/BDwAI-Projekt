@@ -10,12 +10,12 @@ namespace ProjektBDwAI.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int SurveyId {  get; set; }
-        public string QuestionType {  get; set; }
-        public string Content { get; set; }
+        public required string QuestionType {  get; set; }
+        public required string Content { get; set; }
 
         [ForeignKey(nameof(SurveyId))]
-        public Survey Survey { get; set; }
+        public required Survey Survey { get; set; }
 
-        public ICollection<Answer> Answers { get; set; }
+        public required ICollection<Answer> Answers { get; set; }
     }
 }
