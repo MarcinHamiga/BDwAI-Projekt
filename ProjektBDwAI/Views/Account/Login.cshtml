@@ -13,6 +13,12 @@
     <meta name="viewport" content="width=device-width, inital-scale=1.0" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <title>Ekran logowania</title>
+    <style>
+        .text-danger ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid">
@@ -21,6 +27,7 @@
                 <h1>Logowanie</h1>
             </div>
             <div class="card-body align-content-center text-center">
+                <div asp-validation-summary="All" class="text-danger"></div>
                 <form method="post" asp-action="Login" asp-controller="Account">
                     <div class="row mb-1">
                         <div class="col-md-12">
@@ -38,10 +45,16 @@
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <input type="submit" class="btn btn-primary mt-4" value="Zarejestruj się" />
+                    <div class="row">
+                        <input type="submit" class="btn btn-primary mt-4 col-4 offset-4" value="Zaloguj się" />
+                    </div>
+                    <div class="row">
+                         <a class="btn btn-primary mt-4 col-4 offset-4" asp-action="Register" asp-controller="Account" type="">Do rejestracji</a>
                     </div>
                 </form>
+            </div>
+            <div class="card-footer text-center">
+                <p>&copy - Marcin Hamiga - Kacper Słupski - 2024</p>
             </div>
         </div>
     </div>

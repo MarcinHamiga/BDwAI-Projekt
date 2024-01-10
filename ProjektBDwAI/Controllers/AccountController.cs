@@ -22,11 +22,6 @@ namespace ProjektBDwAI.Controllers
             return BC.Verify(providedPassword, hashedPassword);
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public IActionResult Login()
         {
             return View();
@@ -47,6 +42,14 @@ namespace ProjektBDwAI.Controllers
 
                         return RedirectToAction("Index", "Home");
                     }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Błędne hasło. Spróbuj ponownie.");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Podany użytkownik nie istnieje. Spróbuj ponownie.");
                 }
             }
 
@@ -72,6 +75,12 @@ namespace ProjektBDwAI.Controllers
             _context.Users.Add(model);
             _context.SaveChanges();
 
+            return RedirectToAction("Login");
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
     }

@@ -1,8 +1,37 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    @model HomeViewModel
 }
 
 <div class="text-center">
     <h1 class="display-4">Witaj @ViewData["Username"]</h1>
     <p>Czas zacząć tworzyć ankiety i przeprowadzać badania!</p>
+    <div class="row">
+        <div class="card col-6">
+            <div class="card-header">
+                <h2>Twoje ankiety</h2>
+            </div>
+            <div class="card-body">
+                @foreach (var survey in Model.UserSurveys)
+                {
+                    <div class="row">
+                        <a class="btn btn-primary col-12" asp-action="Show" asp-controller="Survey">@survey.Title</a>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="card col-6">
+            <div class="card-header">
+                <h2>Publiczne ankiety</h2>
+            </div>
+            <div class="card-body">
+                @foreach(var survey in Model.PublicSurveys)
+                {
+                    <div class="row">
+                        <a class="btn btn-primary col-12" asp-action="Show" asp-controller="Survey" asp-route-id="@survey.Id">@survey.Title</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>
