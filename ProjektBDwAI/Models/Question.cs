@@ -17,5 +17,6 @@ namespace ProjektBDwAI.Models
         public Survey Survey { get; set; }
 
         public ICollection<Answer> Answers { get; set; }
+        public ICollection<UserResult> UserResults { get; set; }
     }
 }

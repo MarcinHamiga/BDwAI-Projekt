@@ -15,9 +15,11 @@ namespace ProjektBDwAI.Models
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Hasło jest wymagane")]
+        [StringLength(255, MinimumLength = 3, ErrorMessage = "Minimum 3 znaki, maksymalnie 255 znaków")]
         public string Password { get; set; }
         public bool isAdmin { get; set; }
 
         public ICollection<Survey>? Surveys { get; set; }
+        public ICollection<Result>? Results { get; set; }
     }
 }

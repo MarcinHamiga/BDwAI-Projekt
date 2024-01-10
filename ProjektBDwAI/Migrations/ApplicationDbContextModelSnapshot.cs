@@ -78,7 +78,7 @@ namespace ProjektBDwAI.Migrations
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("ProjektBDwAI.Models.Results", b =>
+            modelBuilder.Entity("ProjektBDwAI.Models.Result", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -92,7 +92,7 @@ namespace ProjektBDwAI.Migrations
                     b.Property<int>("SurveyId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -154,7 +154,7 @@ namespace ProjektBDwAI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ProjektBDwAI.Models.UserResults", b =>
+            modelBuilder.Entity("ProjektBDwAI.Models.UserResult", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -207,23 +207,19 @@ namespace ProjektBDwAI.Migrations
                     b.Navigation("Survey");
                 });
 
-            modelBuilder.Entity("ProjektBDwAI.Models.Results", b =>
+            modelBuilder.Entity("ProjektBDwAI.Models.Result", b =>
                 {
                     b.HasOne("ProjektBDwAI.Models.Survey", "Survey")
-                        .WithMany()
+                        .WithMany("Results")
                         .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjektBDwAI.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("ProjektBDwAI.Models.User", null)
+                        .WithMany("Results")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Survey");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ProjektBDwAI.Models.Survey", b =>
@@ -237,31 +233,33 @@ namespace ProjektBDwAI.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("ProjektBDwAI.Models.UserResults", b =>
+            modelBuilder.Entity("ProjektBDwAI.Models.UserResult", b =>
                 {
-                    b.HasOne("ProjektBDwAI.Models.Question", "Questions")
-                        .WithMany()
+                    b.HasOne("ProjektBDwAI.Models.Question", "Question")
+                        .WithMany("UserResults")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ProjektBDwAI.Models.Results", "Results")
+                    b.HasOne("ProjektBDwAI.Models.Result", "Result")
                         .WithMany("UserResults")
                         .HasForeignKey("ResultId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Questions");
+                    b.Navigation("Question");
 
-                    b.Navigation("Results");
+                    b.Navigation("Result");
                 });
 
             modelBuilder.Entity("ProjektBDwAI.Models.Question", b =>
                 {
                     b.Navigation("Answers");
+
+                    b.Navigation("UserResults");
                 });
 
-            modelBuilder.Entity("ProjektBDwAI.Models.Results", b =>
+            modelBuilder.Entity("ProjektBDwAI.Models.Result", b =>
                 {
                     b.Navigation("UserResults");
                 });
@@ -269,10 +267,14 @@ namespace ProjektBDwAI.Migrations
             modelBuilder.Entity("ProjektBDwAI.Models.Survey", b =>
                 {
                     b.Navigation("Questions");
+
+                    b.Navigation("Results");
                 });
 
             modelBuilder.Entity("ProjektBDwAI.Models.User", b =>
                 {
+                    b.Navigation("Results");
+
                     b.Navigation("Surveys");
                 });
 #pragma warning restore 612, 618

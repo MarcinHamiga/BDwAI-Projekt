@@ -30,12 +30,25 @@ namespace ProjektBDwAI.Controllers
                 return View(viewModel);
             }
 
-            return RedirectToAction("Index", "Account");
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult Privacy()
         {
-            return View();
+            if (HttpContext.Session.GetInt32("UserId").HasValue)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
+        }
+
+        public IActionResult Userpage()
+        {
+            if (HttpContext.Session.GetInt32("UserId").HasValue)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -43,5 +56,6 @@ namespace ProjektBDwAI.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }

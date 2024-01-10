@@ -20,5 +20,6 @@ namespace ProjektBDwAI.Models
         public User Owner { get; set; }
 
         public ICollection<Question> Questions { get; set; }
+        public ICollection<Result> Results { get; set; }
     }
 }
