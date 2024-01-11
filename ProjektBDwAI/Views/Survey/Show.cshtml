@@ -1,14 +1,26 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Home Page";
+    @model SurveyShowModel
+
 }
 
-<html>
-    <head>
+<div class="text-center">
+    <div class="row">
+        <div class="card col-6">
+            <div class="card-header">
+                <h2>@Model.Survey.Title</h2>
+            </div>
+            <div class="card-body">
+                @foreach (var question in Model.Questions)
+                {
+                    <p>@question.Content</p>
 
-    </head>
-    <body>
-
-    </body>
-</html>
+                    @foreach (var answer in Model.Answers)
+                    {
+                        <p>@answer.Content</p>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

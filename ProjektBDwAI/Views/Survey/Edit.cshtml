@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    @model SurveyEditModel
+
+}
+
+<div class="text-center">
+    <div class="col">
+        <div class="card col-6">
+            <div class="card-header">
+                <h2>@Model.Survey.Title</h2>
+            </div>
+
+            
+
+
+
+
+
+            <div class="card-body">
+                @foreach (var question in Model.Questions)
+                {
+                    <p>@question.Content</p>
+
+                    @foreach (var answer in Model.Answers)
+                    {
+                        <p>@answer.Content</p>
+                    }
+                }
+            </div>
+
+        </div>
+
+        <div class="card col-6">
+            <form asp-action="Edit" asp-controller="Survey" method="post">
+                <div class="row">
+                    <label asp-for="QuestionContent" class="form-label col-12">Tytuł</label>
+                    <input asp-for="QuestionContent" class="form-text col-12" type="text" />
+                    <span asp-validation-for="QuestionContent" class="text-danger col-4 offset-4"></span>
+                    <input asp-for="Action" hidden type="number" value="1" />
+                </div>
+                <input type="submit" />
+
+            </form>
+
+        </div>
+
+
+    </div>
+</div>
