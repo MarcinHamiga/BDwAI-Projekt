@@ -13,10 +13,7 @@ namespace ProjektBDwAI.Models
         public int QuestionId { get; set; }
         [Required]
         public string Content { get; set; }
-        [Required]
         public string Value {get; set; }
-        [Required]
-        public string Name { get; set; }
 
         [ForeignKey(nameof(QuestionId))]
         public Question Question { get; set; }

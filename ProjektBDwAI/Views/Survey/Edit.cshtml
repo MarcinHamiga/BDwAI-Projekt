@@ -12,11 +12,14 @@
             <div class="card-body">
                 @foreach (var question in Model.Questions)
                 {
-                    <p>@question.Content</p>
+                    <h2>@question.Content</h2>
 
                     @foreach (var answer in Model.Answers)
                     {
-                        <p>@answer.Content</p>
+                        if (question.Id == answer.QuestionId)
+                        {
+                            <p>>@answer.Content</p>
+                        }
                     }
                 }
             </div>
@@ -36,6 +39,58 @@
                     <option value="text">Text</option>
                     <option value="radio">Radio</option>
                     </select>
+                </div>
+                <input type="submit" />
+            </form>
+
+            <form asp-action="Edit" asp-controller="Survey" method="post">
+                <div class="row">
+                    <select asp-for="questionId" required>
+                    @foreach(var question in Model.Questions)
+                    {
+                        if(question.QuestionType == "radio")
+                            {
+                                <option value="@question.Id">@question.Content</option>
+                            }
+                    }
+                    </select>
+                </div>
+
+                <div class="row">
+                    <label asp-for="questionContent" class="form-label col-12">Treść odpowiedzi</label>
+                    <input asp-for="answerContent" type="text" required/>
+                    <input asp-for="Action" hidden readonly type="number" value="2" />
+                    <input asp-for="surveyId" hidden readonly type="number" value="@Model.Survey.Id" />
+                </div>
+                <input type="submit" />
+            </form>
+
+            <form asp-action="Edit" asp-controller="Survey" method="post">
+                <div class="row">
+                    <select asp-for="questionId" required>
+                        @foreach (var question in Model.Questions)
+                        {
+                            <option value="@question.Id">@question.Content</option>
+                        }
+                    </select>
+
+                    <input asp-for="Action" hidden readonly type="number" value="3" />
+                    <input asp-for="surveyId" hidden readonly type="number" value="@Model.Survey.Id" />
+                </div>
+                <input type="submit" />
+            </form>
+
+            <form asp-action="Edit" asp-controller="Survey" method="post">
+                <div class="row">
+                    <select asp-for="answerId" required>
+                        @foreach (var answer in Model.Answers)
+                        {
+                            <option value="@answer.Id">@answer.Content </option>
+                        }
+                    </select>
+
+                    <input asp-for="Action" hidden readonly type="number" value="4" />
+                    <input asp-for="surveyId" hidden readonly type="number" value="@Model.Survey.Id" />
                 </div>
                 <input type="submit" />
             </form>

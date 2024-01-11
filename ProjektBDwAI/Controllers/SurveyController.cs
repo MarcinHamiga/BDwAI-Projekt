@@ -60,11 +60,28 @@ namespace ProjektBDwAI.Controllers
                     await _context.SaveChangesAsync();
                     break;
                 case 2:
-
+                    var answer = new Answer();
+                    answer.QuestionId = model.questionId;
+                    answer.Content = model.answerContent;
+                    answer.Value = "A jak pan Marcin powiedzial?";
+                    await _context.Answers.AddAsync(answer);
+                    await _context.SaveChangesAsync();
                     break;
                 case 3:
+                    var questionDel = _context.Questions.Find(model.questionId);
+                    if(questionDel != null)
+                    {
+                        _context.Questions.Remove(questionDel);
+                        _context.SaveChanges();
+                    }
                     break;
                 case 4:
+                    var answerDel = _context.Answers.Find(model.answerId);
+                    if (answerDel != null)
+                    {
+                        _context.Answers.Remove(answerDel);
+                        _context.SaveChanges();
+                    }
                     break;
                 default:
                     break;

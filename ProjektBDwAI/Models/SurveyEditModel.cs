@@ -3,6 +3,9 @@
     public class SurveyEditModel
     {
         public int Action { get; set; }
+        public string answerContent { get; set; }
+        public int questionId { get; set; } 
+        public int answerId { get; set; }
         public Survey Survey { get; set; }
         public int surveyId { get; set; }
         public string questionContent { get; set; }
