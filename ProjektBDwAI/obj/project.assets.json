@@ -7665,23 +7665,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {},
+    "C:\\Users\\marci\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\source\\repos\\BDwIA-Projekt\\ProjektBDwAI\\ProjektBDwAI.csproj",
+      "projectUniqueName": "C:\\Users\\marci\\Documents\\GitHub\\BDwIA-Projekt\\ProjektBDwAI\\ProjektBDwAI.csproj",
       "projectName": "ProjektBDwAI",
-      "projectPath": "C:\\Users\\User\\source\\repos\\BDwIA-Projekt\\ProjektBDwAI\\ProjektBDwAI.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\source\\repos\\BDwIA-Projekt\\ProjektBDwAI\\obj\\",
+      "projectPath": "C:\\Users\\marci\\Documents\\GitHub\\BDwIA-Projekt\\ProjektBDwAI\\ProjektBDwAI.csproj",
+      "packagesPath": "C:\\Users\\marci\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\marci\\Documents\\GitHub\\BDwIA-Projekt\\ProjektBDwAI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\marci\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

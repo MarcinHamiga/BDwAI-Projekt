@@ -22,27 +22,39 @@ namespace ProjektBDwAI.Controllers
 
             return Answers;
         }
+
+        private bool checkSession()
+        {
+            return HttpContext.Session.GetInt32("UserId").HasValue;
+        }
+
         public SurveyController(ApplicationDbContext appDb)
         {
             _context = appDb;
         }
         public IActionResult Show(int Id)
         {
-            SurveyShowModel viewModel = new SurveyShowModel();
-            viewModel.Survey = _context.Surveys.FirstOrDefault(s => s.Id == Id);
-            viewModel.Questions = getQuestions(Id);
-            viewModel.Answers = getAnswers(viewModel.Questions);
-            return View(viewModel);
+            if (checkSession())
+            {
+                SurveyShowModel viewModel = new SurveyShowModel();
+                viewModel.Survey = _context.Surveys.FirstOrDefault(s => s.Id == Id);
+                viewModel.Questions = getQuestions(Id);
+                viewModel.Answers = getAnswers(viewModel.Questions);
+                return View(viewModel);
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult Edit(int Id) 
         {
-            SurveyEditModel viewModel = new SurveyEditModel();
-            viewModel.Survey = _context.Surveys.FirstOrDefault(s => s.Id == Id);
-            viewModel.Questions = getQuestions(viewModel.Survey.Id);
-            viewModel.Answers = getAnswers(viewModel.Questions);
-
-            return View(viewModel);
+            if (checkSession()) { 
+                SurveyEditModel viewModel = new SurveyEditModel();
+                viewModel.Survey = _context.Surveys.FirstOrDefault(s => s.Id == Id);
+                viewModel.Questions = getQuestions(viewModel.Survey.Id);
+                viewModel.Answers = getAnswers(viewModel.Questions);
+                return View(viewModel);
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]

@@ -25,75 +25,85 @@
             </div>
         </div>
         <div class="card col-6">
-            <form asp-action="Edit" asp-controller="Survey" method="post">
-                <div class="row">
-                    <label asp-for="questionContent" class="form-label col-12">Treść Pytania</label>
-                    <input asp-for="questionContent" class="form-text col-12" type="text" value="" required />
-                    <span asp-validation-for="questionContent" class="text-danger col-4 offset-4"></span>
-                    <input asp-for="Action" hidden readonly type="number" value="1" />
-                    <input asp-for="surveyId" hidden readonly type="number" value="@Model.Survey.Id" />
-                </div>
-                <div class="row">
-                    <label asp-for="questionType" class="form-label col-12">Typ Pytania</label>
-                    <select asp-for="questionType" class="form-text col-12" required>
-                    <option value="text">Text</option>
-                    <option value="radio">Radio</option>
-                    </select>
-                </div>
-                <input type="submit" />
-            </form>
+            <div class="row">
+                <h3 class="mt-4">Dodaj pytanie</h3>
+                <form asp-action="Edit" asp-controller="Survey" method="post" class="col-12 mt-4">
+                    <div class="row">
+                        <label asp-for="questionContent" class="form-label col-10 offset-1">Treść Pytania</label>
+                        <input asp-for="questionContent" class="form-text col-10 offset-1" type="text" value="" required />
+                        <span asp-validation-for="questionContent" class="text-danger col-4 offset-4"></span>
+                        <input asp-for="Action" hidden readonly type="number" value="1" />
+                        <input asp-for="surveyId" hidden readonly type="number" value="@Model.Survey.Id" />
+                    </div>
+                    <div class="row">
+                        <label asp-for="questionType" class="form-label col-10 offset-1">Typ Pytania</label>
+                        <select asp-for="questionType" class="form-text col-10 form-select" required>
+                        <option value="text">Text</option>
+                        <option value="radio">Radio</option>
+                        </select>
+                    </div>
+                    <input type="submit" class="btn btn-primary mt-1" value="Dodaj pytanie"/>
+                </form>
+            </div>
+            <div class="row">
+                <h3 class="mt-4">Dodaj odpowiedź</h3>
+                <form asp-action="Edit" asp-controller="Survey" method="post" class="col-12 mt-4">
+                    <div class="row">
+                        <select asp-for="questionId" required class="col-10 form-select">
+                        @foreach(var question in Model.Questions)
+                        {
+                            if(question.QuestionType == "radio")
+                                {
+                                    <option value="@question.Id">@question.Content</option>
+                                }
+                        }
+                        </select>
+                    </div>
 
-            <form asp-action="Edit" asp-controller="Survey" method="post">
-                <div class="row">
-                    <select asp-for="questionId" required>
-                    @foreach(var question in Model.Questions)
-                    {
-                        if(question.QuestionType == "radio")
+                    <div class="row">
+                        <label asp-for="questionContent" class="form-label col-10 offset-1">Treść odpowiedzi</label>
+                        <input asp-for="answerContent" type="text" required class="form-text col-10 offset-1"/>
+                        <input asp-for="Action" hidden readonly type="number" value="2" />
+                        <input asp-for="surveyId" hidden readonly type="number" value="@Model.Survey.Id" />
+                    </div>
+                    <input type="submit" class="btn btn-primary mt-1" value="Dodaj odpowiedź"/>
+                </form>
+            </div>
+            <div class="row">
+                <h3 class="mt-4">Usuń pytanie</h3>
+                <form asp-action="Edit" asp-controller="Survey" method="post" class="col-12 mt-4">
+                    <div class="row">
+                        <select asp-for="questionId" required class="col-10 form-select">
+                            @foreach (var question in Model.Questions)
                             {
                                 <option value="@question.Id">@question.Content</option>
                             }
-                    }
-                    </select>
-                </div>
+                        </select>
 
-                <div class="row">
-                    <label asp-for="questionContent" class="form-label col-12">Treść odpowiedzi</label>
-                    <input asp-for="answerContent" type="text" required/>
-                    <input asp-for="Action" hidden readonly type="number" value="2" />
-                    <input asp-for="surveyId" hidden readonly type="number" value="@Model.Survey.Id" />
-                </div>
-                <input type="submit" />
-            </form>
+                        <input asp-for="Action" hidden readonly type="number" value="3" />
+                        <input asp-for="surveyId" hidden readonly type="number" value="@Model.Survey.Id" />
+                    </div>
+                    <input type="submit" class="btn btn-primary mt-1" value="Usuń pytanie"/>
+                </form>
+            </div>
+            <div class="row">
+                <h3 class="mt-4">Usuń odpowiedź</h3>
+                <form asp-action="Edit" asp-controller="Survey" method="post" class="col-12 mt-4">
+                    <div class="row">
+                        <select asp-for="answerId" required class="col-10 form-select">
+                            @foreach (var answer in Model.Answers)
+                            {
+                                <option value="@answer.Id">@answer.Content </option>
+                            }
+                        </select>
 
-            <form asp-action="Edit" asp-controller="Survey" method="post">
-                <div class="row">
-                    <select asp-for="questionId" required>
-                        @foreach (var question in Model.Questions)
-                        {
-                            <option value="@question.Id">@question.Content</option>
-                        }
-                    </select>
-
-                    <input asp-for="Action" hidden readonly type="number" value="3" />
-                    <input asp-for="surveyId" hidden readonly type="number" value="@Model.Survey.Id" />
-                </div>
-                <input type="submit" />
-            </form>
-
-            <form asp-action="Edit" asp-controller="Survey" method="post">
-                <div class="row">
-                    <select asp-for="answerId" required>
-                        @foreach (var answer in Model.Answers)
-                        {
-                            <option value="@answer.Id">@answer.Content </option>
-                        }
-                    </select>
-
-                    <input asp-for="Action" hidden readonly type="number" value="4" />
-                    <input asp-for="surveyId" hidden readonly type="number" value="@Model.Survey.Id" />
-                </div>
-                <input type="submit" />
-            </form>
+                        <input asp-for="Action" hidden readonly type="number" value="4" />
+                        <input asp-for="surveyId" hidden readonly type="number" value="@Model.Survey.Id" />
+                    </div>
+                    <input type="submit" class="btn btn-primary mt-1" value="Usuń odpowiedź"/>
+                </form>
+            </div>
+            <a asp-action="Show" asp-controller="Survey" asp-route-id="@Model.Survey.Id" class="btn btn-primary mt-4 mb-2">Wróć</a>
         </div>
     </div>
 </div>
