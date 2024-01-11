@@ -46,6 +46,10 @@ namespace ProjektBDwAI.Controllers
         {
             if (HttpContext.Session.GetInt32("UserId").HasValue)
             {
+                int userId = HttpContext.Session.GetInt32("UserId").Value;
+                ViewData["UserId"] = userId;
+                List<Survey> surveys = _context.Surveys.Where(s => s.OwnerId == userId).ToList();
+                ViewData["UserSurveys"] = surveys;
                 return View();
             }
             return RedirectToAction("Login", "Account");

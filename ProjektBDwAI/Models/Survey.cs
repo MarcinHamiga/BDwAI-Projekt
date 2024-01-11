@@ -7,9 +7,7 @@ namespace ProjektBDwAI.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
         public int Id {  get; set; }
-        [Required]
         public bool IsPublic { get; set; }
         [Required]
         public int OwnerId { get; set; }
