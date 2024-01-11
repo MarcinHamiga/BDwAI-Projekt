@@ -6,6 +6,22 @@ namespace ProjektBDwAI.Controllers
     public class SurveyController : Controller
     {
         private readonly ApplicationDbContext _context;
+
+        private List<Question> getQuestions(int surveyId)
+        {
+            var Questions = _context.Questions.Where(q => q.SurveyId == surveyId).ToList();
+            return Questions;
+        }
+        private List<Answer> getAnswers(List<Question> Questions)
+        {
+            List<Answer> Answers = new List<Answer>();
+            foreach(var question in Questions)
+            {
+                Answers.AddRange(_context.Answers.Where(a => a.QuestionId == question.Id).ToList());
+            }
+
+            return Answers;
+        }
         public SurveyController(ApplicationDbContext appDb)
         {
             _context = appDb;
@@ -14,15 +30,8 @@ namespace ProjektBDwAI.Controllers
         {
             SurveyShowModel viewModel = new SurveyShowModel();
             viewModel.Survey = _context.Surveys.FirstOrDefault(s => s.Id == Id);
-            var questions = _context.Questions.Where(q => q.SurveyId == Id).ToList();
-
-            foreach (var question in questions)
-            {
-                var answers = _context.Answers.Where(a => a.QuestionId == question.Id).ToList();
-                viewModel.Answers.AddRange(answers);
-            }
-            viewModel.Questions = questions;
-
+            viewModel.Questions = getQuestions(Id);
+            viewModel.Answers = getAnswers(viewModel.Questions);
             return View(viewModel);
         }
 
@@ -30,14 +39,8 @@ namespace ProjektBDwAI.Controllers
         {
             SurveyEditModel viewModel = new SurveyEditModel();
             viewModel.Survey = _context.Surveys.FirstOrDefault(s => s.Id == Id);
-            var questions = _context.Questions.Where(q => q.SurveyId == Id).ToList();
-
-            foreach (var question in questions)
-            {
-                var answers = _context.Answers.Where(a => a.QuestionId == question.Id).ToList();
-                viewModel.Answers.AddRange(answers);
-            }
-            viewModel.Questions = questions;
+            viewModel.Questions = getQuestions(viewModel.Survey.Id);
+            viewModel.Answers = getAnswers(viewModel.Questions);
 
             return View(viewModel);
         }
@@ -49,9 +52,9 @@ namespace ProjektBDwAI.Controllers
             {
                 case 1:
                     var question = new Question();
-                    question.QuestionType = "text";
-                    question.SurveyId = model.Survey.Id;
-                    question.Content = model.QuestionContent;
+                    question.QuestionType = model.questionType;
+                    question.SurveyId = model.surveyId;
+                    question.Content = model.questionContent;
 
                     await _context.Questions.AddAsync(question);
                     await _context.SaveChangesAsync();
@@ -67,6 +70,11 @@ namespace ProjektBDwAI.Controllers
                     break;
             }
 
+            model.Survey = _context.Surveys.FirstOrDefault(s => s.Id == model.surveyId);
+            model.Questions = getQuestions(model.Survey.Id);
+            model.Answers = getAnswers(model.Questions);
+            model.questionType = null;
+            model.questionContent = null;
             return View(model);
         }
 

@@ -17,59 +17,59 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ProjektBDwAI
 build_property.RootNamespace = ProjektBDwAI
-build_property.ProjectDir = C:\Users\User\source\repos\BDwIA-Projekt\ProjektBDwAI\
+build_property.ProjectDir = C:\Users\marci\Documents\GitHub\BDwIA-Projekt\ProjektBDwAI\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\User\source\repos\BDwIA-Projekt\ProjektBDwAI
+build_property.MSBuildProjectDirectory = C:\Users\marci\Documents\GitHub\BDwIA-Projekt\ProjektBDwAI
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/User/source/repos/BDwIA-Projekt/ProjektBDwAI/Views/Account/Change.cshtml]
+[C:/Users/marci/Documents/GitHub/BDwIA-Projekt/ProjektBDwAI/Views/Account/Change.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDaGFuZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/source/repos/BDwIA-Projekt/ProjektBDwAI/Views/Account/Login.cshtml]
+[C:/Users/marci/Documents/GitHub/BDwIA-Projekt/ProjektBDwAI/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/source/repos/BDwIA-Projekt/ProjektBDwAI/Views/Account/Register.cshtml]
+[C:/Users/marci/Documents/GitHub/BDwIA-Projekt/ProjektBDwAI/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/source/repos/BDwIA-Projekt/ProjektBDwAI/Views/Home/Index.cshtml]
+[C:/Users/marci/Documents/GitHub/BDwIA-Projekt/ProjektBDwAI/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/source/repos/BDwIA-Projekt/ProjektBDwAI/Views/Home/Userpage.cshtml]
+[C:/Users/marci/Documents/GitHub/BDwIA-Projekt/ProjektBDwAI/Views/Home/Userpage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxVc2VycGFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/source/repos/BDwIA-Projekt/ProjektBDwAI/Views/Shared/Error.cshtml]
+[C:/Users/marci/Documents/GitHub/BDwIA-Projekt/ProjektBDwAI/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/source/repos/BDwIA-Projekt/ProjektBDwAI/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/marci/Documents/GitHub/BDwIA-Projekt/ProjektBDwAI/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/source/repos/BDwIA-Projekt/ProjektBDwAI/Views/Survey/Edit.cshtml]
+[C:/Users/marci/Documents/GitHub/BDwIA-Projekt/ProjektBDwAI/Views/Survey/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VydmV5XEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/source/repos/BDwIA-Projekt/ProjektBDwAI/Views/Survey/Show.cshtml]
+[C:/Users/marci/Documents/GitHub/BDwIA-Projekt/ProjektBDwAI/Views/Survey/Show.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VydmV5XFNob3cuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/source/repos/BDwIA-Projekt/ProjektBDwAI/Views/_ViewImports.cshtml]
+[C:/Users/marci/Documents/GitHub/BDwIA-Projekt/ProjektBDwAI/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/source/repos/BDwIA-Projekt/ProjektBDwAI/Views/_ViewStart.cshtml]
+[C:/Users/marci/Documents/GitHub/BDwIA-Projekt/ProjektBDwAI/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/source/repos/BDwIA-Projekt/ProjektBDwAI/Views/Shared/_Layout.cshtml]
+[C:/Users/marci/Documents/GitHub/BDwIA-Projekt/ProjektBDwAI/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-ixaz8bzd80

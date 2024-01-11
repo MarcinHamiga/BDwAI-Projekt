@@ -6,11 +6,17 @@
 
 <div class="text-center">
     <div class="row">
-        <div class="card col-6">
+        <div class="card col-8 offset-2">
             <div class="card-header">
                 <h2>@Model.Survey.Title</h2>
             </div>
             <div class="card-body">
+                <div class="row justify-content-center">
+                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Edit" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Edytuj</a>
+                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="" asp-controller="">Publikuj/Ukryj</a>
+                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="" asp-controller="">Wyniki</a>
+                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="" asp-controller="">Usuń</a>
+                </div>
                 @foreach (var question in Model.Questions)
                 {
                     <p>@question.Content</p>
