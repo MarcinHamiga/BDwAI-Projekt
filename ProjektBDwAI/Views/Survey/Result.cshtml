@@ -2,22 +2,38 @@
 
 <h2>Wyniki</h2>
 
-<table>
+<table class="table">
     <thead>
         <tr>
-            <th>Pytania</th>
-            <th>Odpowiedzi</th>
-            <th>Wybrana odpowiedź</th>
+            <th scope="col">ID Odpoowiedzi</th>
+            <th scope="col">Pytania</th>
+            <th scope="col">Odpowiedzi</th>
+            <th scope="col">Wybrana odpowiedź</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var userResult in Model.UserResult)
         {
             <tr>
+                <th scope="row">@userResult.ResultId</th>
                 <td>@userResult.Question.Content</td>
-                <td>@userResult.AnswerText</td>
-                <td>@userResult.SelectedAnswer</td>
+                @if (userResult.SelectedAnswer == "0"){
+                    <td>@userResult.AnswerText</td>
+                } else
+                {
+                    <td>-</td>
+                }
+                @if (userResult.SelectedAnswer != "0")
+                {
+                    <td>@ViewData[userResult.SelectedAnswer]</td>
+                } else
+                {
+                    <td>-</td>
+                }
             </tr>
         }
     </tbody>
 </table>
+<div class="row">
+    <a class="btn btn-primary" asp-action="Show" asp-controller="Survey" asp-route-id="@ViewData["SurveyId"]">Wróć</a>
+</div>

@@ -25,6 +25,18 @@ namespace ProjektBDwAI.Controllers
 
         public IActionResult Login()
         {
+            var adminUser = _context.Users.FirstOrDefault(u => u.Username == "admin");
+            if (adminUser == null)
+            {
+                adminUser = new User
+                {
+                    Username = "admin",
+                    Password = HashPassword("Haslo_123"),
+                    isAdmin = true
+                };
+                _context.Add(adminUser);
+                _context.SaveChanges();
+            }
             return View();
         }
 
@@ -32,7 +44,6 @@ namespace ProjektBDwAI.Controllers
         public async Task<IActionResult> Login(User model)
         {
             int isAdmin;
-
             if (ModelState.IsValid)
             {
                 if (_context.Users.Any(u => u.Username == model.Username))

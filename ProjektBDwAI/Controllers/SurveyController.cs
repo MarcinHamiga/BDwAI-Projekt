@@ -10,6 +10,32 @@ namespace ProjektBDwAI.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        private Survey getSurvey(int id)
+        {
+            var Survey = _context.Surveys.FirstOrDefault(s => s.Id == id);
+            if (Survey != null)
+            {
+                return Survey;
+            }
+            return null;
+            
+        }
+
+        private int getSurveyOwnerId(int id)
+        {
+            return _context.Surveys.FirstOrDefault(s => s.Id == id).OwnerId;
+        }
+
+        private bool isOwner(int id)
+        {
+            return getSessionId() == getSurveyOwnerId(id);
+        }
+
+        private string getAnswerContentById(int id)
+        {
+            return _context.Answers.FirstOrDefault(a => a.Id == id).Content.ToString();
+        }
+
         private List<Question> getQuestions(int surveyId)
         {
             var Questions = _context.Questions.Where(q => q.SurveyId == surveyId).ToList();
@@ -65,6 +91,7 @@ namespace ProjektBDwAI.Controllers
                 viewModel.Survey = _context.Surveys.FirstOrDefault(s => s.Id == Id);
                 viewModel.Questions = getQuestions(Id);
                 viewModel.Answers = getAnswers(viewModel.Questions);
+                
                 return View(viewModel);
             }
             return RedirectToAction("Login", "Account");
@@ -72,93 +99,136 @@ namespace ProjektBDwAI.Controllers
 
         public IActionResult Edit(int Id) 
         {
-            if (checkSession()) { 
+            if (checkSession() && isOwner(Id)) { 
                 SurveyEditModel viewModel = new SurveyEditModel();
                 viewModel.Survey = _context.Surveys.FirstOrDefault(s => s.Id == Id);
                 viewModel.Questions = getQuestions(viewModel.Survey.Id);
                 viewModel.Answers = getAnswers(viewModel.Questions);
                 return View(viewModel);
+            } else if (checkSession() && !isOwner(Id))
+            {
+                return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("Login", "Account");
         }
         public IActionResult Publish(int id)
         {
-            Survey survey = _context.Surveys.FirstOrDefault(s => s.Id == id);
-            survey.IsPublic = (!survey.IsPublic);
-            _context.SaveChanges();
-            return RedirectToAction("Show", new {Id=id});
+            if (checkSession() && isOwner(id))
+            {
+                Survey survey = _context.Surveys.FirstOrDefault(s => s.Id == id);
+                survey.IsPublic = (!survey.IsPublic);
+                _context.SaveChanges();
+                return RedirectToAction("Show", new { Id = id });
+            } else if (checkSession() && !isOwner(id))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Login", "Account");
+
         }
 
         public IActionResult Delete(int id)
         {
-            Survey survey = _context.Surveys.FirstOrDefault(s => s.Id == id);
-            _context.Surveys.Remove(survey);
-            _context.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            if (checkSession() && isOwner(id))
+            {
+                Survey survey = _context.Surveys.FirstOrDefault(s => s.Id == id);
+                _context.Surveys.Remove(survey);
+                _context.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            } else if (checkSession() && !isOwner(id))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Login", "Account");
+            
         }
 
         public IActionResult Result(int id)
         {
-            List<UserResult> userResults = _context.UserResults
-            .Include(ur => ur.Question)
-            .Include(ur => ur.Result)
-            .Where(ur => ur.Result.SurveyId == id)
-            .ToList();
-
-            var viewModel = new UserResultView
+            if (checkSession() && isOwner(id))
             {
-                UserResult = userResults
-            };
-            return View(viewModel);
+                List<UserResult> userResults = _context.UserResults
+                .Include(ur => ur.Question)
+                .Include(ur => ur.Result)
+                .Where(ur => ur.Result.SurveyId == id)
+                .ToList();
+
+                ViewData["SurveyId"] = id;
+                foreach (var result in userResults)
+                {
+                    if (result.SelectedAnswer != "0")
+                    {
+                        ViewData[result.SelectedAnswer] = getAnswerContentById(int.Parse(result.SelectedAnswer));
+                    }
+                }
+                var viewModel = new UserResultView
+                {
+                    UserResult = userResults
+                };
+
+                return View(viewModel);
+            } else if (checkSession() && !isOwner(id))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Login", "Account");
+            
         }
         [HttpPost]
         public async Task<IActionResult> Edit(SurveyEditModel model)
         {
-            switch (model.Action)
+            if (checkSession() && isOwner(model.surveyId))
             {
-                case 1:
-                    var question = new Question();
-                    question.QuestionType = model.questionType;
-                    question.SurveyId = model.surveyId;
-                    question.Content = model.questionContent;
 
-                    await _context.Questions.AddAsync(question);
-                    await _context.SaveChangesAsync();
-                    break;
-                case 2:
-                    var answer = new Answer();
-                    answer.QuestionId = model.questionId;
-                    answer.Content = model.answerContent;
-                    answer.Value = "A jak pan Marcin powiedzial?";
-                    await _context.Answers.AddAsync(answer);
-                    await _context.SaveChangesAsync();
-                    break;
-                case 3:
-                    var questionDel = _context.Questions.Find(model.questionId);
-                    if(questionDel != null)
-                    {
-                        _context.Questions.Remove(questionDel);
-                        _context.SaveChanges();
-                    }
-                    break;
-                case 4:
-                    var answerDel = _context.Answers.Find(model.answerId);
-                    if (answerDel != null)
-                    {
-                        _context.Answers.Remove(answerDel);
-                        _context.SaveChanges();
-                    }
-                    break;
-                default:
-                    break;
+
+                switch (model.Action)
+                {
+                    case 1:
+                        var question = new Question();
+                        question.QuestionType = model.questionType;
+                        question.SurveyId = model.surveyId;
+                        question.Content = model.questionContent;
+
+                        await _context.Questions.AddAsync(question);
+                        await _context.SaveChangesAsync();
+                        break;
+                    case 2:
+                        var answer = new Answer();
+                        answer.QuestionId = model.questionId;
+                        answer.Content = model.answerContent;
+                        answer.Value = "A jak pan Marcin powiedzial?";
+                        await _context.Answers.AddAsync(answer);
+                        await _context.SaveChangesAsync();
+                        break;
+                    case 3:
+                        var questionDel = _context.Questions.Find(model.questionId);
+                        if (questionDel != null)
+                        {
+                            _context.Questions.Remove(questionDel);
+                            _context.SaveChanges();
+                        }
+                        break;
+                    case 4:
+                        var answerDel = _context.Answers.Find(model.answerId);
+                        if (answerDel != null)
+                        {
+                            _context.Answers.Remove(answerDel);
+                            _context.SaveChanges();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                model.Survey = _context.Surveys.FirstOrDefault(s => s.Id == model.surveyId);
+                model.Questions = getQuestions(model.Survey.Id);
+                model.Answers = getAnswers(model.Questions);
+                model.questionType = null;
+                model.questionContent = null;
+                return View(model);
             }
 
-            model.Survey = _context.Surveys.FirstOrDefault(s => s.Id == model.surveyId);
-            model.Questions = getQuestions(model.Survey.Id);
-            model.Answers = getAnswers(model.Questions);
-            model.questionType = null;
-            model.questionContent = null;
-            return View(model);
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]
@@ -179,7 +249,7 @@ namespace ProjektBDwAI.Controllers
 
         public IActionResult Fill(int Id)
         {
-            if (checkSession())
+            if (checkSession() && isOwner(Id))
             {
                 SurveyFillModel viewModel = new SurveyFillModel();
                 viewModel.Survey = _context.Surveys.FirstOrDefault(s => s.Id == Id);
@@ -197,6 +267,9 @@ namespace ProjektBDwAI.Controllers
                 ViewData["SurveyId"] = (int)viewModel.Survey.Id;
 
                 return View(viewModel);
+            } else if (checkSession() && !isOwner(Id))
+            {
+                return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("Login", "Account");
         }
