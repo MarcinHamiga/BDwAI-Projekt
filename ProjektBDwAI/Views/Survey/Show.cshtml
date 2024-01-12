@@ -12,10 +12,13 @@
             </div>
             <div class="card-body">
                 <div class="row justify-content-center">
+                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Fill" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Wypełnij</a>
                     <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Edit" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Edytuj</a>
                     <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="" asp-controller="">Publikuj/Ukryj</a>
                     <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="" asp-controller="">Wyniki</a>
                     <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="" asp-controller="">Usuń</a>
+                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Userpage" asp-controller="Home">Strona użytkownika</a>
+                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Index" asp-controller="Home">Strona główna</a>
                 </div>
                 @foreach (var question in Model.Questions)
                 {
@@ -23,7 +26,11 @@
 
                     @foreach (var answer in Model.Answers)
                     {
-                        <p>@answer.Content</p>
+                        if (answer.QuestionId == question.Id)
+                        {
+                            <p>@answer.Content</p>
+                        }
+                       
                     }
                 }
             </div>

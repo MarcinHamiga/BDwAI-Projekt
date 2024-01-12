@@ -12,6 +12,7 @@ namespace ProjektBDwAI.Controllers
             var Questions = _context.Questions.Where(q => q.SurveyId == surveyId).ToList();
             return Questions;
         }
+
         private List<Answer> getAnswers(List<Question> Questions)
         {
             List<Answer> Answers = new List<Answer>();
@@ -26,6 +27,27 @@ namespace ProjektBDwAI.Controllers
         private bool checkSession()
         {
             return HttpContext.Session.GetInt32("UserId").HasValue;
+        }
+
+        private int getSessionId()
+        {
+            if (checkSession())
+            {
+                return HttpContext.Session.GetInt32("UserId").Value;
+            }
+
+            return -1;
+            
+        }
+
+        private string getSessionUsername()
+        {
+            if (checkSession())
+            {
+                return HttpContext.Session.GetString("Username");
+            }
+
+            return "";
         }
 
         public SurveyController(ApplicationDbContext appDb)
@@ -110,7 +132,7 @@ namespace ProjektBDwAI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSurvey(Survey model)
         {
-            if (HttpContext.Session.GetInt32("UserId").HasValue) {
+            if (checkSession()) {
                 int userId = HttpContext.Session.GetInt32("UserId").Value;
                 model.OwnerId = userId;
                 model.IsPublic = false;
@@ -121,6 +143,75 @@ namespace ProjektBDwAI.Controllers
                 
             }
             return RedirectToAction("Userpage", "Home");
+        }
+
+        public IActionResult Fill(int Id)
+        {
+            if (checkSession())
+            {
+                SurveyFillModel viewModel = new SurveyFillModel();
+                viewModel.Survey = _context.Surveys.FirstOrDefault(s => s.Id == Id);
+                if (viewModel.Survey == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                viewModel.Questions = getQuestions(viewModel.Survey.Id);
+                viewModel.Answers = getAnswers(viewModel.Questions);
+                viewModel.Results = new List<string>();
+                foreach (var question in viewModel.Questions)
+                {
+                    viewModel.Results.Add("");
+                }
+                ViewData["SurveyId"] = (int)viewModel.Survey.Id;
+
+                return View(viewModel);
+            }
+            return RedirectToAction("Login", "Account");
+        }
+        [HttpPost]
+        public async Task<IActionResult> Fill(SurveyFillModel model)
+        {
+            if (checkSession())
+            {
+                int x = 0;
+                Result Result = new Result {
+                    SurveyId = model.surveyId,
+                    DateFilled = DateTime.Now
+                };
+
+                _context.Results.Add(Result);
+                await _context.SaveChangesAsync();
+
+                List<Question> Questions = getQuestions(model.surveyId);
+
+                foreach(var userResult in model.Results)
+                {
+                    var Question = Questions[x];
+                    UserResult UserResult = new UserResult();
+                    UserResult.ResultId = Result.Id;
+                    UserResult.QuestionId = Question.Id;
+                    if (Question.QuestionType == "text")
+                    {
+                        UserResult.AnswerText = userResult;
+                        UserResult.SelectedAnswer = "0";
+                    }
+                    else
+                    {
+                        UserResult.AnswerText = "RADIO-TYPE-ANSWER";
+                        UserResult.SelectedAnswer = userResult;
+                    }
+
+                    x++;
+
+                    await _context.UserResults.AddAsync(UserResult);
+                    
+                }
+                await _context.SaveChangesAsync();
+
+
+                return RedirectToAction("Show", new { Id = model.surveyId});
+            }
+            return RedirectToAction("Login", "Account");
         }
     }
 }

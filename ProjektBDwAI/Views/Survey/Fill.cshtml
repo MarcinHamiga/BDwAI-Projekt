@@ -1,0 +1,74 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model SurveyFillModel
+    int x = 0;
+}
+
+
+<div class="text-center">
+    <div class="row">
+        <div class="card col-8 offset-2">
+            <div class="card-header">
+                <h2>@Model.Survey.Title</h2>
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Show" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Wróć</a>
+                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Edit" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Edytuj</a>
+                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="" asp-controller="">Publikuj/Ukryj</a>
+                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="" asp-controller="">Wyniki</a>
+                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="" asp-controller="">Usuń</a>
+                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Userpage" asp-controller="Home">Strona użytkownika</a>
+                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Index" asp-controller="Home">Strona główna</a>
+                </div>
+                <form asp-action="Fill" asp-controller="Survey" method="post">
+                    <input asp-for="surveyId" value="@Model.Survey.Id" hidden readonly type="number" />
+                    @for (int i = 0; i < Model.Questions.Count; i++)
+                    {
+                        var question = Model.Questions[i];
+                        <div class="row">
+                            <h3 class="mt-4">@question.Content</h3>
+
+                            @if (question.QuestionType == "radio")
+                            {
+                                foreach (var answer in Model.Answers)
+                                {
+                                    if (answer.QuestionId == question.Id)
+                                    {
+                                        <label>
+                                            @Html.RadioButtonFor(m => m.Results, answer.Id, new {@required = "required"})
+                                            @answer.Content
+                                        </label>
+                                        <br />
+                                    }
+                                }
+                            }
+                            else if (question.QuestionType == "text")
+                            {
+
+                                while (Model.Results.Count <= i)
+                                {
+                                    Model.Results.Add(null);
+                                }
+
+                                @Html.TextAreaFor(m => m.Results, new {@class = "form-textarea", @required = "required", placeholder="Twoja odpowiedź...", @Value=""})
+                            }
+                        </div>
+                    }
+                    <div class="row">
+                        <input class="btn btn-primary mt-4" type="submit" value="Prześlij"/>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".form-textarea").val("");
+    });
+</script>
