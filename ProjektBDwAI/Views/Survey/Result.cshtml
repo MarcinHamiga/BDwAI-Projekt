@@ -1,0 +1,23 @@
+﻿@model UserResultView
+
+<h2>Wyniki</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Pytania</th>
+            <th>Odpowiedzi</th>
+            <th>Wybrana odpowiedź</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var userResult in Model.UserResult)
+        {
+            <tr>
+                <td>@userResult.Question.Content</td>
+                <td>@userResult.AnswerText</td>
+                <td>@userResult.SelectedAnswer</td>
+            </tr>
+        }
+    </tbody>
+</table>

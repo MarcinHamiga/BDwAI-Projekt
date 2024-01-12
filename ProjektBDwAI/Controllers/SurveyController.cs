@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjektBDwAI.Models;
+using System.Security.Policy;
 
 namespace ProjektBDwAI.Controllers
 {
@@ -78,7 +81,36 @@ namespace ProjektBDwAI.Controllers
             }
             return RedirectToAction("Login", "Account");
         }
+        public IActionResult Publish(int id)
+        {
+            Survey survey = _context.Surveys.FirstOrDefault(s => s.Id == id);
+            survey.IsPublic = (!survey.IsPublic);
+            _context.SaveChanges();
+            return RedirectToAction("Show", new {Id=id});
+        }
 
+        public IActionResult Delete(int id)
+        {
+            Survey survey = _context.Surveys.FirstOrDefault(s => s.Id == id);
+            _context.Surveys.Remove(survey);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Result(int id)
+        {
+            List<UserResult> userResults = _context.UserResults
+            .Include(ur => ur.Question)
+            .Include(ur => ur.Result)
+            .Where(ur => ur.Result.SurveyId == id)
+            .ToList();
+
+            var viewModel = new UserResultView
+            {
+                UserResult = userResults
+            };
+            return View(viewModel);
+        }
         [HttpPost]
         public async Task<IActionResult> Edit(SurveyEditModel model)
         {
