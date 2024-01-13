@@ -26,8 +26,23 @@ namespace ProjektBDwAI.Controllers
             return _context.Surveys.FirstOrDefault(s => s.Id == id).OwnerId;
         }
 
+        private bool isAdmin()
+        {
+            if (HttpContext.Session.GetInt32("isAdmin") == 1)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
         private bool isOwner(int id)
         {
+            if (isAdmin())
+            {
+                return true;
+            }
             return getSessionId() == getSurveyOwnerId(id);
         }
 
@@ -91,6 +106,7 @@ namespace ProjektBDwAI.Controllers
                 viewModel.Survey = _context.Surveys.FirstOrDefault(s => s.Id == Id);
                 viewModel.Questions = getQuestions(Id);
                 viewModel.Answers = getAnswers(viewModel.Questions);
+                ViewData["isAdmin"] = isAdmin();
                 
                 return View(viewModel);
             }
@@ -265,6 +281,7 @@ namespace ProjektBDwAI.Controllers
                     viewModel.Results.Add("");
                 }
                 ViewData["SurveyId"] = (int)viewModel.Survey.Id;
+                ViewData["isAdmin"] = isAdmin();
 
                 return View(viewModel);
             } else if (checkSession() && !isOwner(Id))

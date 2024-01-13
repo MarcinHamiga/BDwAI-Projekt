@@ -23,6 +23,7 @@ namespace ProjektBDwAI.Controllers
             return BC.Verify(providedPassword, hashedPassword);
         }
 
+
         public IActionResult Login()
         {
             var adminUser = _context.Users.FirstOrDefault(u => u.Username == "admin");

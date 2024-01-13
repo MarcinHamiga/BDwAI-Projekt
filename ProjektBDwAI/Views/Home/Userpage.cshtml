@@ -12,13 +12,10 @@
                 <h1>Twoje ankiety</h1>
             </div>
             <div class="row justify-content-center">
-            @{
-                
-                foreach(var survey in ViewData["UserSurveys"] as List<Survey>)
+                @foreach(var survey in ViewData["UserSurveys"] as List<Survey>)
                 {
                     <a asp-action="Show" asp-controller="Survey" asp-route-id="@survey.Id" class="btn btn-primary col-10 offset-1 p-3 m-1">@survey.Title</a>
                 }
-            }
             </div>
         </div>
         <div class="card col-4">
@@ -39,5 +36,19 @@
                 </form>
             </div>
         </div>
+        @if ((bool)ViewData["isAdmin"])
+        {
+            <div class="card col-8">
+                <div class="card-header">
+                    <h1>Wszystkie ankiety</h1>
+                </div>
+                <div class="card-body">
+                    @foreach (var survey in ViewData["AllSurveys"] as List<Survey>)
+                    {
+                        <a asp-action="Show" asp-controller="Survey" asp-route-id="@survey.Id" class="btn btn-primary col-10 offset-1 p-3 m-1">@survey.Title</a>
+                    }
+                </div>
+        </div>
+        }
     </div>
 </div>

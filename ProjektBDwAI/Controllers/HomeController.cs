@@ -13,6 +13,48 @@ namespace ProjektBDwAI.Controllers
             _context = context;
         }
 
+        private bool checkSession()
+        {
+            return HttpContext.Session.GetInt32("UserId").HasValue;
+        }
+
+        private int getSessionId()
+        {
+            if (checkSession())
+            {
+                return HttpContext.Session.GetInt32("UserId").Value;
+            }
+
+            return -1;
+
+        }
+
+        private int getSurveyOwnerId(int id)
+        {
+            return _context.Surveys.FirstOrDefault(s => s.Id == id).OwnerId;
+        }
+
+        private bool isAdmin()
+        {
+            if (HttpContext.Session.GetInt32("isAdmin") == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool isOwner(int id)
+        {
+            if (isAdmin())
+            {
+                return true;
+            }
+            return getSessionId() == getSurveyOwnerId(id);
+        }
+
         public IActionResult Index()
         {
             if (HttpContext.Session.GetInt32("UserId").HasValue)
@@ -48,8 +90,10 @@ namespace ProjektBDwAI.Controllers
             {
                 int userId = HttpContext.Session.GetInt32("UserId").Value;
                 ViewData["UserId"] = userId;
+                ViewData["isAdmin"] = isAdmin();
                 List<Survey> surveys = _context.Surveys.Where(s => s.OwnerId == userId).ToList();
                 ViewData["UserSurveys"] = surveys;
+                ViewData["AllSurveys"] = _context.Surveys.ToList();
                 return View();
             }
             return RedirectToAction("Login", "Account");

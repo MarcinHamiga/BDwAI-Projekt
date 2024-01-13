@@ -13,10 +13,13 @@
             <div class="card-body">
                 <div class="row justify-content-center">
                     <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Fill" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Wypełnij</a>
-                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Edit" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Edytuj</a>
-                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Publish" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Publikuj/Ukryj</a>
-                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Result" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Wyniki</a>
-                    <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Delete" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Usuń</a>
+                    @if ((bool)ViewData["isAdmin"])
+                    {
+                        <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Edit" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Edytuj</a>
+                        <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Publish" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Publikuj/Ukryj</a>
+                        <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Result" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Wyniki</a>
+                        <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Delete" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Usuń</a>
+                    }
                     <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Userpage" asp-controller="Home">Strona użytkownika</a>
                     <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Index" asp-controller="Home">Strona główna</a>
                 </div>
