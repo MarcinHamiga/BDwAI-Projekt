@@ -15,7 +15,7 @@
             <div class="card-body">
                 <div class="row justify-content-center">
                     <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Show" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Wróć</a>
-                    @if ((bool)ViewData["isAdmin"])
+                    @if ((bool)ViewData["isOwner"])
                     {
                         <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Edit" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Edytuj</a>
                         <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Publish" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Publikuj/Ukryj</a>

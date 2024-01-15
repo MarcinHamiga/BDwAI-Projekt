@@ -13,7 +13,7 @@
             <div class="card-body">
                 <div class="row justify-content-center">
                     <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Fill" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Wypełnij</a>
-                    @if ((bool)ViewData["isAdmin"])
+                    @if ((bool)ViewData["isOwner"])
                     {
                         <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Edit" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Edytuj</a>
                         <a class="btn btn-primary mt-1 mb-4 mx-1 col-auto" asp-action="Publish" asp-controller="Survey" asp-route-id="@Model.Survey.Id">Publikuj/Ukryj</a>
@@ -25,7 +25,7 @@
                 </div>
                 @foreach (var question in Model.Questions)
                 {
-                    <p>@question.Content</p>
+                    <h3>@question.Content</h3>
 
                     @foreach (var answer in Model.Answers)
                     {

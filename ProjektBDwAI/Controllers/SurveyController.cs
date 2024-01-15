@@ -106,7 +106,7 @@ namespace ProjektBDwAI.Controllers
                 viewModel.Survey = _context.Surveys.FirstOrDefault(s => s.Id == Id);
                 viewModel.Questions = getQuestions(Id);
                 viewModel.Answers = getAnswers(viewModel.Questions);
-                ViewData["isAdmin"] = isAdmin();
+                ViewData["isOwner"] = isOwner(Id);
                 
                 return View(viewModel);
             }
@@ -268,6 +268,7 @@ namespace ProjektBDwAI.Controllers
             if (checkSession() && isOwner(Id))
             {
                 SurveyFillModel viewModel = new SurveyFillModel();
+                ViewData["isOwner"] = isOwner(Id);
                 viewModel.Survey = _context.Surveys.FirstOrDefault(s => s.Id == Id);
                 if (viewModel.Survey == null)
                 {
@@ -281,7 +282,6 @@ namespace ProjektBDwAI.Controllers
                     viewModel.Results.Add("");
                 }
                 ViewData["SurveyId"] = (int)viewModel.Survey.Id;
-                ViewData["isAdmin"] = isAdmin();
 
                 return View(viewModel);
             } else if (checkSession() && !isOwner(Id))
